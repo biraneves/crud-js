@@ -1,4 +1,8 @@
-function renderTable(employees, roles) {
+// Variáveis globais (!!!)
+let employees = [];
+let roles = [];
+
+function renderTable() {
 
     let rows = employees.map((employee) => {
         let role = roles.find((role) => role.id == employee.role_id);
@@ -24,12 +28,12 @@ async function init() {
 
     try {
 
-        let [employees, roles] = await Promise.all([
+        [employees, roles] = await Promise.all([
             listEmployees(),
             listRoles(),
         ]);
 
-        let table = renderTable(employees, roles);
+        let table = renderTable();
 
         document.getElementById("app").innerHTML = table;
 
