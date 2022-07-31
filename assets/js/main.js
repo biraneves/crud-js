@@ -2,24 +2,35 @@
 let employees = [];
 let roles = [];
 
-function renderTable() {
+const listElement = document.querySelector("ul");
+const formElement = document.querySelector("form");
 
-    let rows = employees.map((employee) => {
+function renderData() {
+
+    for (const employee of employees) {
+
         let role = roles.find((role) => role.id == employee.role_id);
-        return `<tr>
-            <td>${employee.id}</td>
-            <td>${employee.name}</td>
-            <td>${role.name}</td>
-        </tr>`;
-    });
 
-    return `<table>${rows.join('')}</table>`;
+        const li = document.createElement("li");
+
+        const divName = document.createElement("div");
+        divName.textContent = employee.name;
+
+        const divRole = document.createElement("div");
+        divRole.textContent = role.name;
+
+        li.appendChild(divName);
+        li.appendChild(divRole);
+
+        listElement.appendChild(li);
+
+    }
 
 }
 
 function showError(error) {
 
-    document.getElementById("app").innerHTML = "Erro ao carregar dados.";
+    document.getElementById("errors").textContent = "Erro ao carregar dados.";
     console.log(error);
 
 }
@@ -33,9 +44,7 @@ async function init() {
             listRoles(),
         ]);
 
-        let table = renderTable();
-
-        document.getElementById("app").innerHTML = table;
+        renderData();
 
     } catch (error) {
 
