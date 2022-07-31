@@ -1,15 +1,3 @@
-function fetchJson(url) {
-
-    return fetch(url).then((resp) => {
-        if (resp.ok) {
-            return resp.json();
-        } else {
-            throw new Error(`Error: ${resp.status} - ${resp.statusText}`);
-        }
-    });
-
-}
-
 function renderTable(employees, roles) {
 
     let rows = employees.map((employee) => {
@@ -37,8 +25,8 @@ async function init() {
     try {
 
         let [employees, roles] = await Promise.all([
-            fetchJson("http://localhost:3000/employees"),
-            fetchJson("http://localhost:3000/roles")
+            listEmployees(),
+            listRoles(),
         ]);
 
         let table = renderTable(employees, roles);
