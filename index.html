@@ -4,11 +4,21 @@
     <meta charset='UTF-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel="stylesheet" href="assets/css/style.css">
     <title>Document</title>
 </head>
 <body>
     <div id="errors"></div>
-    <form></form>
+    <form>
+        <label>Name: <input name="name"></label>
+        <label>Salary: <input name="salary" type="number"></label>
+        <label>Role: <select name="role_id"></select></label>
+        <div>
+            <button type="button" id="bDelete">Delete</button>
+            <button type="button" id="bCancel">Cancel</button>
+            <button type="submit" id="bSubmit">Create</button>
+        </div>
+    </form>
     <ul></ul>
 
     <script src="assets/js/https.js"></script>
