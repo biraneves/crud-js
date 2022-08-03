@@ -22,6 +22,7 @@ function selectItem(employee, element) {
 
     buttonDelete.style.display = "inline";
     buttonCancel.style.display = "inline";
+    buttonCreate.textContent = "Update";
 
 }
 
@@ -40,10 +41,15 @@ function clearSelection() {
 
     buttonDelete.style.display = "none";
     buttonCancel.style.display = "none";
+    buttonCreate.textContent = "Create";
+
+    clearError();
 
 }
 
 function renderData() {
+
+    listElement.innerHTML = "";
 
     for (const employee of employees) {
 
@@ -80,32 +86,95 @@ function renderRoles() {
     }
 }
 
-function showError(error) {
+function showError(message, error) {
 
-    document.getElementById("errors").textContent = "Erro ao carregar dados.";
-    console.log(error);
+    document.getElementById("errors").textContent = message;
+    document.getElementById("errors-container").style.visibility = "visible";
+
+    if (error) {
+
+        console.log(error);
+
+    }
+
+}
+
+function clearError() {
+
+    document.getElementById("errors").textContent = "";
+    document.getElementById("errors-container").style.visibility = "hidden";
+
+}
+
+async function onSubmit(evt) {
+
+    evt.preventDefault();
+
+    const employeeData = {
+        name: formElement.name.value,
+        salary: formElement.salary.valueAsNumber,
+        role_id: +formElement.role_id.value
+    };
+
+    if (!employeeData.name || !employeeData.salary || !employeeData.role_id) {
+
+        showError("All form fields must be filled.");
+
+    } else {
+
+        if (selectedItem) {
+            
+            const updatedItem = await updateEmployee(selectedItem.id, employeeData);
+            const i = employees.indexOf(selectedItem);
+            employees[i] = updatedItem;
+            renderData();
+        
+            selectItem(updatedItem, listElement.children[i]);
+    
+        } else {
+    
+            const createdItem = await createEmployee(employeeData);
+            employees.push(createdItem);
+            renderData();
+            selectItem(createdItem, listElement.lastChild);
+            listElement.lastChild.scrollIntoView();
+    
+        }
+
+    }
+
+}
+
+async function onDelete() {
+
+    if (selectedItem) {
+
+        await deleteEmployee(selectedItem.id);
+        
+        const i = employees.indexOf(selectedItem);
+        employees.splice(i, 1);
+
+        renderData();
+        clearSelection();
+
+    }
 
 }
 
 async function init() {
 
-    try {
+    [employees, roles] = await Promise.all([
+        listEmployees(),
+        listRoles(),
+    ]);
 
-        [employees, roles] = await Promise.all([
-            listEmployees(),
-            listRoles(),
-        ]);
+    renderRoles();
+    renderData();
+    clearSelection();
 
-        renderRoles();
-        renderData();
-        clearSelection();
-        buttonCancel.addEventListener("click", clearSelection);
-
-    } catch (error) {
-
-        showError(error);
-
-    }
+    buttonCancel.addEventListener("click", clearSelection);
+    buttonDelete.addEventListener("click", onDelete);
+    formElement.addEventListener("submit", onSubmit);
 
 }
 

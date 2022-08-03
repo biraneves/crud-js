@@ -1,46 +1,58 @@
-function fetchJson(url) {
+const baseUrl = "http://localhost:3000";
 
-    return fetch(url).then((resp) => {
+function fetchJson(url, options) {
+
+    return fetch(url, options).then((resp) => {
         if (resp.ok) {
             return resp.json();
         } else {
             throw new Error(`Error: ${resp.status} - ${resp.statusText}`);
         }
+    }).catch(error => {
+
+        showError("Error loading data.", error);
+        throw error;
+
     });
 
 }
 
 function listEmployees() {
 
-    return fetchJson("http://localhost:3000/employees");
+    return fetchJson(`${baseUrl}/employees`);
 
 }
 
 function listRoles() {
 
-    return fetchJson("http://localhost:3000/roles");
+    return fetchJson(`${baseUrl}/roles`);
 
 }
 
-// // Cria novo funcionário
-// fetch(`http://localhost:3000/employees`, {
-//     method: "POST",
-//     headers: {
-//         "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify(employee),
-// });
+function updateEmployee(id, employee) {
 
-// // Atualiza funcionário
-// fetch(`http://localhost:3000/employees/${id}`, {
-//     method: "PUT",
-//     headers: {
-//         "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify(employee),
-// });
+    return fetchJson(`${baseUrl}/employees/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(employee),
+    });
 
-// // Exclui funcionário
-// fetch(`http://localhost:3000/employees/${id}`, {
-//     method: "DELETE",
-// });
+}
+
+function createEmployee(employee) {
+
+    return fetchJson(`${baseUrl}/employees`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(employee),
+    });
+
+}
+
+function deleteEmployee(id) {
+
+    return fetchJson(`${baseUrl}/employees/${id}`, {
+        method: "DELETE"
+    });
+
+}
