@@ -68,6 +68,18 @@ function renderData() {
 
 }
 
+function renderRoles() {
+    for (const role of roles) {
+
+        const option = document.createElement("option");
+        option.textContent = role.name;
+        option.value = role.id;
+
+        formElement.role_id.appendChild(option);
+
+    }
+}
+
 function showError(error) {
 
     document.getElementById("errors").textContent = "Erro ao carregar dados.";
@@ -84,7 +96,9 @@ async function init() {
             listRoles(),
         ]);
 
+        renderRoles();
         renderData();
+        clearSelection();
         buttonCancel.addEventListener("click", clearSelection);
 
     } catch (error) {
