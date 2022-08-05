@@ -99,6 +99,8 @@ function showError(message, error) {
 
     }
 
+    let timeout = setTimeout(clearError, 2000);
+
 }
 
 function clearError() {
