@@ -10,22 +10,21 @@ body {
     margin: 0;
 }
 
-#errors-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding: 10px;
-    visibility: hidden;
+#errors {
+    text-align: center;
+    background-color: rgb(220, 1, 1);
+    padding: 5px;
+    line-height: 18px;
+    font-size: 0.8rem;
+    color: white;
+    position: absolute;
+    width: 100%;
+    top: -28px;
+    transition: all 0.3s;
 }
 
-#errors {
-    line-height: 32px;
-    text-align: center;
-    width: 360px;
-    background-color: rgb(248, 180, 180);
-    border: 1px solid rgb(241, 103, 103);
-    border-radius: 5px;
-    color: rgb(194, 0, 0);
+#errors.show {
+    top: 0px;
 }
 
 body > form {

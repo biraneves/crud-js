@@ -10,6 +10,8 @@ const buttonDelete = document.getElementById("bDelete");
 const buttonCancel = document.getElementById("bCancel");
 const buttonCreate = document.getElementById("bSubmit");
 
+const errorDiv = document.getElementById("errors");
+
 function selectItem(employee, element) {
 
     clearSelection();
@@ -89,7 +91,7 @@ function renderRoles() {
 function showError(message, error) {
 
     document.getElementById("errors").textContent = message;
-    document.getElementById("errors-container").style.visibility = "visible";
+    errorDiv.classList.add("show");
 
     if (error) {
 
@@ -102,7 +104,7 @@ function showError(message, error) {
 function clearError() {
 
     document.getElementById("errors").textContent = "";
-    document.getElementById("errors-container").style.visibility = "hidden";
+    errorDiv.classList.remove("show");
 
 }
 
